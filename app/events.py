@@ -1,5 +1,7 @@
 from flask import request
 from flask_socketio import emit
+import time
+
 
 from .extensions import socketio
 
@@ -22,3 +24,11 @@ def handle_new_message(message):
         if users[user] == request.sid:
             username = user
     emit("chat", {"message": message, "username": username}, broadcast=True)
+
+
+@socketio.on("coordinates")
+def handle_user_join(coordinates):
+    print(coordinates)
+    for i in range(1000):
+        time.sleep(0.1)
+        emit("draw_row", {"row_idx": 'sfdfas', "values": 'v'}, broadcast=True)
