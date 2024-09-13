@@ -4,16 +4,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask-SocketIO Example</title>
+    <title>mandlebrot</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
     <script src="{{url_for('static', filename='globals.js')}}"></script>
     <script src="{{url_for('static', filename='mandlebrot.js')}}"></script>
     <script src="{{url_for('static', filename='socket.js')}}"></script>
+
 </head>
 <body>
-    Please note that this may not render on every browser. I do not care. 
-    <div id="someid"></div>
-    <canvas id="canvas"></canvas>
+    <div class="container">
+        <div class="row">
+                
+                <select class="form-select" aria-label="Default select example">
+                    <option selected value="1">Natural</option>
+                    <option value="2">Kawaii</option>
+                    <option value="3">Metal</option>
+                    <option value="4">Mild</option>
+                </select>
+                
+                <select class="form-select" aria-label="Default select example">
+                    <option value="50">Min depth 50</option>
+                    <option selected value="100">Depth 100</option>
+                    <option value="200">Depth 200</option>
+                    <option value="300">Max depth 300</option>
+                </select>
+                <button id="save-button">Save</button>
+                <canvas id="canvas"></canvas>
+        </div>
+    </div>
+    
 
 </body>
 </html>

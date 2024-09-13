@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 
-from project.mandlebrot import get_new_range, mandelbrot
+from project.mandlebrot import get_new_range, mandlebrot
 from .test_helpers import round_coord
 
 R = (-2.25, 0.75)
@@ -28,7 +28,7 @@ def test_get_mandlebrot_range():
 
 
 def test_mandlebrot_function():
-    a = mandelbrot()
+    a = mandlebrot()
 
     assert len(a) == 1000
     assert len(a[0]) == 1000

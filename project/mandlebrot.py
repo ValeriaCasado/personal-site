@@ -12,54 +12,51 @@ def countIterationsUntilDivergent(c, threshold):
     return iteration
 
 
+DEFAULT_REAL_RANGE = (-2.25, 0.75)
+DEFAULT_IMAGINARY_RANGE = (-1.5, 1.5)
+
 def get_new_range(real_range: tuple, imaginary_range: tuple, coord: tuple, density) -> tuple[tuple[int]]:
-  """
-  Given a coordinate in a 2D space, 
-  Where the x values are within a range :real_range: and y values :imaginary_range:
-  Return a new real and imaginary range < current range, based around a coordinate
-  
-  :real_range: x axis range (i.e default (-2.25, 0.75))
-  :imaginary_range: y axis range (i.e default (-1.5, 1.5))
-  :coord: the coordinate in the 1000x1000 system: I.e 50, 56
-  :density: Number of values in x and y
-  """
-  width=100
-  half_width=50
-  div = density - 1
-  coord_x, coord_y = coord
-  if coord_x <= width or coord_y <= width or coord_x >= density - width or coord_y >= density - width:
-    return real_range, imaginary_range
+    """
+    Given a coordinate in a 2D space, 
+    Where the x values are within a range :real_range: and y values :imaginary_range:
+    Return a new real and imaginary range < current range, based around a coordinate
 
-  else:
-    
-    real_unit = (abs(real_range[1])+abs(real_range[0]))/div
-    im_unit = (abs(imaginary_range[1])+abs(imaginary_range[0]))/div
+    :real_range: x axis range (i.e default (-2.25, 0.75))
+    :imaginary_range: y axis range (i.e default (-1.5, 1.5))
+    :coord: the coordinate in the 1000x1000 system: I.e 50, 56
+    :density: Number of values in x and y
+    """
 
-    x0, x1 = coord_x-half_width, coord_x+half_width
-    y0, y1 = coord_y-half_width, coord_y+half_width
+    if real_range == None:
+        return DEFAULT_REAL_RANGE, DEFAULT_IMAGINARY_RANGE
 
-    x0, x1 = real_range[0] + x0*real_unit,real_range[0] + x1*real_unit
-    y0, y1 = imaginary_range[0] + y0*im_unit, imaginary_range[0] + y1*im_unit
+    print(real_range, imaginary_range)
+    real = np.linspace(real_range[0], real_range[1], density)
+    imaginary = np.linspace(imaginary_range[0], imaginary_range[1], density)
 
-    return (x0, x1), (y0, y1)
+    unit_x = real[1]-real[0]
+    unit_y = imaginary[1]-imaginary[0]
 
-def mandelbrot(
+    print(coord)
+    coord_x, coord_y = coord
+    val_x, val_y = real[coord_x], imaginary[coord_y]
+
+    new_x_range = (val_x-unit_x*100, val_x+unit_x*100)
+    new_y_range = (val_y-unit_y*100, val_y+unit_y*100)
+    return new_x_range, new_y_range
+
+
+
+def mandlebrot(
     real_range: tuple[float] = (-2.25, 0.75), 
     imaginary_range: tuple[float] = (-1.5, 1.5),
-    threshold: int = 120, 
+    threshold: int = 100, 
     density: int = 1000,
-    coordinate_in_range: tuple[int] = None,
-    emit_function: Callable = lambda *args:None):
+    emit_function: Callable=lambda *args: None):
 
-    if coordinate_in_range:
-        x, y = coordinate_in_range
-        real_range, imaginary_range = get_new_range(
-        real_numbers=realAxis,
-        imaginary_numbers=imaginaryAxis,
-        coord_x=x,
-        coord_y=y,
-        density=density
-    ) 
+    if real_range is None and imaginary_range is None: 
+        real_range = (-2.25, 0.75)
+        imaginary_range = (-1.5, 1.5)
 
     x0, x1 = real_range
     y0, y1 = imaginary_range
@@ -71,11 +68,14 @@ def mandelbrot(
     atlas = np.empty((density, density))
 
     # color each point in the atlas depending on the iteration count
-    for i, ix in enumerate(realAxis):
-        for j, iy in enumerate(imaginaryAxis):
+    for j, iy in enumerate(imaginaryAxis):
+        for i, ix in enumerate(realAxis):
             c = complex(ix, iy)
-            atlas[i, j] = countIterationsUntilDivergent(c, threshold)
-        
-        emit_function(atlas[i])
-        
-    return atlas.T
+            atlas[j, i] = countIterationsUntilDivergent(c, threshold)
+
+        emit_function({
+            'row_idx': j,
+            'values': atlas[j].tolist()
+        })
+    
+    return atlas
