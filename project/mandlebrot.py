@@ -27,17 +27,15 @@ def get_new_range(real_range: tuple, imaginary_range: tuple, coord: tuple, densi
     :density: Number of values in x and y
     """
 
-    if real_range == None:
+    if real_range == None or coord == None:
         return DEFAULT_REAL_RANGE, DEFAULT_IMAGINARY_RANGE
 
-    print(real_range, imaginary_range)
     real = np.linspace(real_range[0], real_range[1], density)
     imaginary = np.linspace(imaginary_range[0], imaginary_range[1], density)
 
     unit_x = real[1]-real[0]
     unit_y = imaginary[1]-imaginary[0]
 
-    print(coord)
     coord_x, coord_y = coord
     val_x, val_y = real[coord_x], imaginary[coord_y]
 
@@ -54,6 +52,8 @@ def mandlebrot(
     density: int = 1000,
     emit_function: Callable=lambda *args: None):
 
+    assert threshold <= 300
+    
     if real_range is None and imaginary_range is None: 
         real_range = (-2.25, 0.75)
         imaginary_range = (-1.5, 1.5)

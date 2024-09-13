@@ -18,25 +18,34 @@
 </head>
 <body>
     <div class="container">
+        <br>
+        <span class="breadcrumb">
+            This page was made with socket.io. It is not compatible with every browser. 
+        </span>
+        <br>
+        <br>
+        <br>
+    </div>
+    <div class="container">
         <div class="row">
-                
-                <select class="form-select" aria-label="Default select example">
+                <select id='palette' class="form-select" aria-label="Default select example">
                     <option selected value="1">Natural</option>
                     <option value="2">Kawaii</option>
-                    <option value="3">Metal</option>
-                    <option value="4">Mild</option>
+                    <option value="3">Midnight</option>
+                    <option value="4">Goblin</option>
                 </select>
                 
-                <select class="form-select" aria-label="Default select example">
+                <select id='threshold' class="form-select" aria-label="Default select example">
                     <option value="50">Min depth 50</option>
                     <option selected value="100">Depth 100</option>
                     <option value="200">Depth 200</option>
                     <option value="300">Max depth 300</option>
                 </select>
-                <button id="save-button">Save</button>
+                <button id="save-button" onclick="save_new_settings">Save</button>
                 <canvas id="canvas"></canvas>
         </div>
     </div>
+
     
 
 </body>
