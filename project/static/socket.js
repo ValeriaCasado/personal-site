@@ -56,10 +56,10 @@ window.addEventListener("load",function(event) {
             DRAWING = false;
         }
         console.log(row_idx);
-    })
+    });
 
     socket.on("stop_drawing", function() {
         DRAWING = false;
-    })
+    });
 
 },false);

@@ -4,6 +4,10 @@ const HEIGHT = WIDTH;
 const MAX_ITERATIONS = 200; 
 
 window.addEventListener("load",function(event) {
+    const x = (1000 - WIDTH / 2) * 4 / WIDTH;
+    const y = (1000 - HEIGHT / 2) * 4 / HEIGHT;
+    console.log(x,y)
+
     console.log('loaded');
 
     const canvas = document.getElementById("canvas");
@@ -23,7 +27,7 @@ window.addEventListener("load",function(event) {
             const newZy = 2 * zx * zy + y;
 
             if (newZx * newZx + newZy * newZy > 4) {
-            return i;
+                return i;
             }
 
             zx = newZx;
@@ -40,7 +44,7 @@ window.addEventListener("load",function(event) {
         for (let px = 0; px < WIDTH; px++) {
             const x = (px - WIDTH / 2) * 4 / WIDTH;
             const y = (currentRow - HEIGHT / 2) * 4 / HEIGHT;
-
+            
             const iteration = mandelbrot(x, y);
 
             const hue = (360 * iteration) / MAX_ITERATIONS;
@@ -53,7 +57,6 @@ window.addEventListener("load",function(event) {
             ctx.fillRect(px, currentRow, 1, 1);
             
         }
-        console.log(currentRow);
         currentRow++;
 
         if (currentRow < HEIGHT) {
