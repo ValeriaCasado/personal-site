@@ -30,8 +30,6 @@ def handle_new_message(message):
 
 @socketio.on("new_mandlebrot")
 def draw_mandlebrot(info = {}):
-    print('Draw new mandlebrot')
-
     coordinates = info.get('coordinates')
     real_range = info['range']['real'] if info.get('range') else None
     imaginary_range = info['range']['imaginary'] if info.get('range') else None
@@ -57,5 +55,3 @@ def draw_mandlebrot(info = {}):
         density=1000,
         emit_function=lambda data: emit("draw_row", data)
     )
-        
-    print('Done')
