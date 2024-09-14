@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 
-from project.mandlebrot import get_new_range, mandlebrot
+from app.mandlebrot import get_new_range, mandlebrot
 from .test_helpers import round_coord
 
 R = (-2.25, 0.75)
