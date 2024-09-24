@@ -1,14 +1,22 @@
 from flask import Flask 
+from pymongo import MongoClient
 
 from .events import socketio
 from .routes import main 
+from .mandlebrot import mandle
+
+#db = MongoClient('')
 
 def create_app():
     app = Flask(__name__)
-    app.config["DEBUG"] = True
-    app.config["SECRET_KEY"] = "secret"
+
+
+    app.config['MONGODB_SETTINGS'] = {
+        "db": "myapp",
+    }
 
     app.register_blueprint(main)
+    app.register_blueprint(mandle, url_prefix='/mandlebrot')
 
     socketio.init_app(app)
 

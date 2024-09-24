@@ -1,6 +1,14 @@
 import numpy as np
 from collections.abc import Callable
 
+from flask import Blueprint, render_template
+
+mandle = Blueprint("mandlebrot", __name__)
+
+@mandle.route("/")
+def index():
+    return render_template("mandlebrot.html")
+
 def countIterationsUntilDivergent(c, threshold):
     z = complex(0, 0)
     for iteration in range(threshold):
