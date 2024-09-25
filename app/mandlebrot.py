@@ -19,7 +19,7 @@ def countIterationsUntilDivergent(c, threshold):
         pass
     return iteration
 
-
+#
 DEFAULT_REAL_RANGE = (-2.25, 0.75)
 DEFAULT_IMAGINARY_RANGE = (-1.5, 1.5)
 
