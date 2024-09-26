@@ -5,3 +5,5 @@ app/__pycache__
 venv/*
 venv
 **/__pycache__/
+**/.DS_Store
+.DS_Store
