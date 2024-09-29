@@ -1,4 +1,6 @@
 import os
+import certifi
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -7,7 +9,8 @@ from flask_login import LoginManager
 from pymongo import MongoClient
 from datetime import timedelta
 
-db = MongoClient(os.environ['MONGO_CONNECTION_STRING'])
+ca = certifi.where()
+db = MongoClient(os.environ['MONGO_CONNECTION_STRING'], tlsCAFile=ca)
 database = db.get_database(os.environ['MONGO_DATABASE_NAME'])
 login_manager = LoginManager()
 
