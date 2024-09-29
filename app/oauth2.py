@@ -31,6 +31,7 @@ def authorize(provider):
         # 'state': session['oauth2_state'],
     })
 
+    current_app.logger.info(f"REDIRECT URL: {url_for('oauth.callback', provider=provider, _external=True)}")
     print(provider_data['client_id'], flush=True)
     print(provider_data['authorize_url'] + '?' + qs, flush=True)
 
