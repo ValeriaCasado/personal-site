@@ -1,14 +1,16 @@
-from flask import request, current_app, session, url_for, redirect, g, Blueprint, render_template
-
+from flask import request, current_app, flash, url_for, redirect, g, Blueprint, render_template
+from flask_login import login_user, login_required, logout_user
 import requests
 from functools import wraps
 from urllib.parse import urlencode
 
+from .models import User
+from . import login_manager
 
 oauth = Blueprint("oauth", __name__)
 
 @oauth.get("/login")
-def home():
+def login():
     return render_template("login.html")
 
 
@@ -55,7 +57,6 @@ def callback(provider):
         'redirect_uri': url_for('oauth.callback', provider=provider, _external=True),
     }, headers={'Accept': 'application/json'})
 
-
     oauth2_token = response.json().get('access_token')
     if not oauth2_token:
         print(response.json())
@@ -69,10 +70,32 @@ def callback(provider):
         'Accept': 'application/json',
     })
 
-    # print(response.json(), flush=True)
-    # print(f'Email {email}', flush=True)
+    d = response.json()
+    print(d, flush=True)
 
-    return render_template("login.html")
+
+    user = User.load_user(d['email'])
+    if not user:
+        user = User(
+            email=d['email'],
+            sub=d['sub'],
+            given_name=d['given_name'],
+            family_name=d['family_name'],
+            picture=str(d['picture'])
+        ).save()
+
+    login_user(user)
+    flash('Logged in successfully.')
+    
+    return redirect(url_for('profile.get_profile'))
+
+
+@oauth.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    flash('Logged out.')
+    return redirect(url_for('main.home'))
 
 
 def login_required(f):
@@ -82,3 +105,8 @@ def login_required(f):
             return redirect(url_for('login', next=request.url))
         return f(*args, **kwargs)
     return decorated_function
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.load_user(user_id)

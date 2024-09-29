@@ -10980,3 +10980,10 @@ section.resume-section .resume-section-content {
     font-size: 2rem;
   }
 }
+
+@media screen and (max-width: 500px) { 
+        .user-image {
+           width: 45px;
+           float: right;
+         }
+}
