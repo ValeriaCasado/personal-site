@@ -74,15 +74,14 @@ def callback(provider):
     d = response.json()
     print(d, flush=True)
 
-
     user = User.load_user(d['email'])
     if not user:
         user = User(
             email=d['email'],
             sub=d['sub'],
             given_name=d['given_name'],
-            family_name=d['family_name'],
-            picture=str(d['picture'])
+            family_name=d.get('family_name'),
+            picture=d.get('picture')
         ).save()
 
     login_user(user)

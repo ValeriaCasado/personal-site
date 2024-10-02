@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, EmailStr, HttpUrl
 from uuid import UUID, uuid4
+from typing import Optional
 
 from . import db
 
@@ -11,8 +12,8 @@ class User(BaseModel):
     email: EmailStr
     sub: str
     given_name: str
-    family_name: str
-    picture: HttpUrl
+    family_name: Optional[str] = None
+    picture: Optional[HttpUrl] = None
     active: bool = True
     anonymous: bool = False
 
@@ -30,7 +31,7 @@ class User(BaseModel):
             'sub': self.sub,
             'given_name': self.given_name,
             'family_name': self.family_name,
-            'picture': str(self.picture),
+            'picture': str(self.picture) if self.picture else None,
             'active': self.active,
             'anonymous': self.anonymous
         })
